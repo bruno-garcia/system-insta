@@ -4,4 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <Button
+            android:text="Run"
+            android:layout_width="57dp"
+            android:layout_height="59dp" android:id="@+id/button"/>
 </RelativeLayout>
