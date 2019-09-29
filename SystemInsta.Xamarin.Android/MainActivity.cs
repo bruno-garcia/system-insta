@@ -1,24 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
-using Android.Runtime;
 using Android.Util;
 using Android.Widget;
-using Java.IO;
-using Console = System.Console;
-
-using System;
-using Android.OS;
 using static Android.Provider.Settings;
-using Java.Interop;
-using Android.Runtime;
-using Android.Content.Res;
-using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.Provider;
 
@@ -81,6 +69,30 @@ App Build: {versionCode}'");
                         foreach (var file in files)
                         {
                             Log.Info(Tag, $"File: {file}.");
+                            if (ELFSharp.ELF.ELFReader.TryLoad(file, out var elf))
+                            {
+                                Log.Info(Tag, $"Class: {elf.Class}.");
+                                Log.Info(Tag, $"HasSectionsStringTable: {elf.HasSectionsStringTable}.");
+                                Log.Info(Tag, $"HasSectionHeader: {elf.HasSectionHeader}.");
+                                foreach (var section in elf.Sections)
+                                {
+                                    Log.Info(Tag, $"Section: {section}.");
+                                }
+                                Log.Info(Tag, $"HasSegmentHeader: {elf.HasSegmentHeader}.");
+                                foreach (var segment in elf.Segments)
+                                {
+                                    Log.Info(Tag, $"Segment: {segment}.");
+                                }
+                                Log.Info(Tag, $"Endianess: {elf.Endianess}.");
+                                Log.Info(Tag, $"Machine: {elf.Machine}.");
+                                Log.Info(Tag, $"Type: {elf.Type}.");
+
+                            }
+                            else
+                            {
+                                Log.Warn(Tag, $"Couldn't load': {file} with ELF reader.");
+                            }
+
                         }
                     }
                     else
