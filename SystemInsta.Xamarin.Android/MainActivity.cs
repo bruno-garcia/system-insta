@@ -71,22 +71,29 @@ App Build: {versionCode}'");
                             Log.Info(Tag, $"File: {file}.");
                             if (ELFSharp.ELF.ELFReader.TryLoad(file, out var elf))
                             {
-                                Log.Info(Tag, $"Class: {elf.Class}.");
-                                Log.Info(Tag, $"HasSectionsStringTable: {elf.HasSectionsStringTable}.");
-                                Log.Info(Tag, $"HasSectionHeader: {elf.HasSectionHeader}.");
-                                foreach (var section in elf.Sections)
-                                {
-                                    Log.Info(Tag, $"Section: {section}.");
-                                }
-                                Log.Info(Tag, $"HasSegmentHeader: {elf.HasSegmentHeader}.");
-                                foreach (var segment in elf.Segments)
-                                {
-                                    Log.Info(Tag, $"Segment: {segment}.");
-                                }
-                                Log.Info(Tag, $"Endianess: {elf.Endianess}.");
-                                Log.Info(Tag, $"Machine: {elf.Machine}.");
-                                Log.Info(Tag, $"Type: {elf.Type}.");
+                                var hasUnwindingInfo = elf.TryGetSection(".eh_frame", out _);
+                                Log.Info(Tag, $"Contains unwinding info: {hasUnwindingInfo}");
+                                var hasDwarfDebugInfo = elf.TryGetSection(".debug_frame", out _);
+                                Log.Info(Tag, $"Contains DWARF debug info: {hasDwarfDebugInfo}");
 
+                                if (hasUnwindingInfo || hasDwarfDebugInfo)
+                                {
+                                    Log.Info(Tag, $"Class: {elf.Class}.");
+                                    Log.Info(Tag, $"HasSectionsStringTable: {elf.HasSectionsStringTable}.");
+                                    Log.Info(Tag, $"HasSectionHeader: {elf.HasSectionHeader}.");
+                                    foreach (var section in elf.Sections)
+                                    {
+                                        Log.Info(Tag, $"Section: {section}.");
+                                    }
+                                    Log.Info(Tag, $"HasSegmentHeader: {elf.HasSegmentHeader}.");
+                                    foreach (var segment in elf.Segments)
+                                    {
+                                        Log.Info(Tag, $"Segment: {segment}.");
+                                    }
+                                    Log.Info(Tag, $"Endianess: {elf.Endianess}.");
+                                    Log.Info(Tag, $"Machine: {elf.Machine}.");
+                                    Log.Info(Tag, $"Type: {elf.Type}.");
+                                }
                             }
                             else
                             {
