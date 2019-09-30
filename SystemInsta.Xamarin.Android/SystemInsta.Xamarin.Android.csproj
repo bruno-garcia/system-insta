@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ELFSharp" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="25.4.0.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

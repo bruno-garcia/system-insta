@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta.Xamarin.Android", "SystemInsta.Xamarin.Android\SystemInsta.Xamarin.Android.csproj", "{E0D40C15-4976-4596-BDC2-07CA3173D7A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta.AspNetCore", "SystemInsta.AspNetCore\SystemInsta.AspNetCore.csproj", "{538D733C-B50B-4B20-8A00-451BCED65DFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
 		{E0D40C15-4976-4596-BDC2-07CA3173D7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D40C15-4976-4596-BDC2-07CA3173D7A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0D40C15-4976-4596-BDC2-07CA3173D7A0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{538D733C-B50B-4B20-8A00-451BCED65DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{538D733C-B50B-4B20-8A00-451BCED65DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{538D733C-B50B-4B20-8A00-451BCED65DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{538D733C-B50B-4B20-8A00-451BCED65DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
