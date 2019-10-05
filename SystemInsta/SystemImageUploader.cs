@@ -16,7 +16,6 @@ namespace SystemInsta
         private readonly Uri _backendUrl;
         private readonly ILogger<SystemImageUploader> _logger;
         private readonly HttpClient _client;
-        private const string BackendUrl = "http://sentry.garcia.in.eu.ngrok.io/image";
 
         public SystemImageUploader(
             Uri backendUrl,
@@ -92,7 +91,7 @@ namespace SystemInsta
 
             var buildIdHex = builder.ToString();
 
-            if (!(await _client.SendAsync(new HttpRequestMessage(HttpMethod.Head, BackendUrl)
+            if (!(await _client.SendAsync(new HttpRequestMessage(HttpMethod.Head, _backendUrl)
                     {Headers = {{"debug-id", buildIdHex}}}))
                 .IsSuccessStatusCode)
             {
@@ -104,7 +103,7 @@ namespace SystemInsta
             // and ensuring it's what we need.
             using (var fileStream = File.OpenRead(file))
             {
-                var postResult = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Post, BackendUrl)
+                var postResult = await _client.SendAsync(new HttpRequestMessage(HttpMethod.Post, _backendUrl)
                 {
                     Headers = {{"debug-id", buildIdHex}},
                     Content = new MultipartFormDataContent(
