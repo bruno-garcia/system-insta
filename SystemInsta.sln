@@ -1,10 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta.Xamarin.Android", "SystemInsta.Xamarin.Android\SystemInsta.Xamarin.Android.csproj", "{E0D40C15-4976-4596-BDC2-07CA3173D7A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta.AspNetCore", "SystemInsta.AspNetCore\SystemInsta.AspNetCore.csproj", "{538D733C-B50B-4B20-8A00-451BCED65DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemInsta.AspNetCore", "SystemInsta.AspNetCore\SystemInsta.AspNetCore.csproj", "{538D733C-B50B-4B20-8A00-451BCED65DFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta", "SystemInsta\SystemInsta.csproj", "{F4EB3E3D-4C5D-47A9-95FD-D5AE20AC44CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemInsta", "SystemInsta\SystemInsta.csproj", "{F4EB3E3D-4C5D-47A9-95FD-D5AE20AC44CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemInsta.Tizen.Wearable", "SystemInsta.Tizen.Wearable\SystemInsta.Tizen.Wearable.csproj", "{D70ACE7D-6C08-4AC4-99F9-DDF417A397C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,5 +31,15 @@ Global
 		{F4EB3E3D-4C5D-47A9-95FD-D5AE20AC44CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4EB3E3D-4C5D-47A9-95FD-D5AE20AC44CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4EB3E3D-4C5D-47A9-95FD-D5AE20AC44CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70ACE7D-6C08-4AC4-99F9-DDF417A397C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70ACE7D-6C08-4AC4-99F9-DDF417A397C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70ACE7D-6C08-4AC4-99F9-DDF417A397C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70ACE7D-6C08-4AC4-99F9-DDF417A397C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C65C6470-8C36-4168-B689-34CA6ECDD229}
 	EndGlobalSection
 EndGlobal

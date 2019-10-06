@@ -36,7 +36,7 @@ namespace SystemInsta
             }
 
             var files = Directory.GetFiles(path);
-            _logger.LogInformation("Path {path} has {length} files to process", files.Length);
+            _logger.LogInformation("Path {path} has {length} files to process", path, files.Length);
 
             foreach (var file in files)
             {
