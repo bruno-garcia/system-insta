@@ -24,8 +24,7 @@ namespace SystemInsta
         {
             _backendUrl = backendUrl ?? throw new ArgumentNullException(nameof(backendUrl));
             _logger = logger ?? NullLogger<SystemImageUploader>.Instance;
-            handler ??= new HttpClientHandler();
-            _client = new HttpClient(handler);
+            _client = new HttpClient(handler ?? new HttpClientHandler());
         }
 
         public async Task Run(string path)
