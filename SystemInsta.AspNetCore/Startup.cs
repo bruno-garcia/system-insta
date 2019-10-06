@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -54,34 +55,41 @@ namespace SystemInsta.AspNetCore
 
                 if (context.Request.Path == "/image")
                 {
-                    log.LogInformation("Incoming image.");
                     if (context.Request.Headers.TryGetValue("debug-id", out var debugId))
                     {
-                        log.LogTrace($"Debug Id:{debugId}");
+                        log.LogInformation("Incoming image with debug Id:{debugId}", debugId);
 
                         if (store.ContainsKey(debugId))
                         {
                             log.LogDebug($"Debug Id:{debugId} already exists.");
                             context.Response.StatusCode = (int)HttpStatusCode.Conflict;
-                            return;
                         }
-
-                        switch (context.Request.Method)
+                        else
                         {
-                            case "HEAD":
-                                break;
-                            case "POST":
+                            switch (context.Request.Method)
                             {
-                                await Add(log, debugId, context, store);
+                                case "HEAD":
+                                    context.Response.StatusCode = (int)HttpStatusCode.OK;
+                                    break;
+                                case "POST":
+                                {
+                                    await Add(log, debugId, context, store);
+                                }
+                                    context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                                    break;
+                                default:
+                                    context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                                    break;
                             }
-                                break;
-                            default:
-                                return;
                         }
-
-                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
-                        await context.Response.CompleteAsync();
+                    } 
+                    else if (context.Request.Method == "GET")
+                    {
+                        context.Response.ContentType = "text/plain";
+                        await context.Response.WriteAsync($@"Total images {store.Count}
+Total size in bytes: {store.Values.Sum(s => s.Length)}");
                     }
+                    await context.Response.CompleteAsync();
                 }
             });
         }
