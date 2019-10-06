@@ -39,16 +39,16 @@ namespace SystemInsta.Xamarin.Android
     {
         public static LogPriority ToLogPriority(this LogLevel level)
         {
-            return level switch
+            switch (level)
             {
-                LogLevel.Trace => LogPriority.Verbose,
-                LogLevel.Debug => LogPriority.Debug,
-                LogLevel.Information => LogPriority.Info,
-                LogLevel.Warning => LogPriority.Warn,
-                LogLevel.Error => LogPriority.Error,
-                LogLevel.Critical => LogPriority.Error,
-                LogLevel.None => (LogPriority)(- 1),
-                _ => (LogPriority)(- 1)
+                case LogLevel.Trace: return LogPriority.Verbose;
+                case LogLevel.Debug: return LogPriority.Debug;
+                case LogLevel.Information: return LogPriority.Info;
+                case LogLevel.Warning: return LogPriority.Warn;
+                case LogLevel.Error: return LogPriority.Error;
+                case LogLevel.Critical: return LogPriority.Error;
+                case LogLevel.None: return (LogPriority)(-1);
+                default: return (LogPriority)level;
             };
         }
     }
