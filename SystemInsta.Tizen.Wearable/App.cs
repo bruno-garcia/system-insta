@@ -30,18 +30,18 @@ namespace SystemInsta.Tizen.Wearable
         private async void UploadSystemImages(object sender, EventArgs e)
         {
             var logger = new LoggerAdapter<SystemImageUploader>();
-            var uploader = new SystemImageUploader(
-                new Uri("http://sentry.garcia.in.eu.ngrok.io/image"),
-                logger: logger);
-            try
+            using (var uploader = new SystemImageUploader(logger: logger))
             {
-                await uploader.Run("/usr/lib");
-            }
-            catch (Exception ex)
-            {
-                global::Tizen.Log.Error("App", ex.ToString());
-                Debug.WriteLine("Blew up: " + ex);
-                throw;
+                try
+                {
+                    await uploader.Run("/usr/lib");
+                }
+                catch (Exception ex)
+                {
+                    global::Tizen.Log.Error("App", ex.ToString());
+                    Debug.WriteLine("Blew up: " + ex);
+                    throw;
+                }
             }
         }
 

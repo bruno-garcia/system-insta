@@ -18,11 +18,13 @@ namespace SystemInsta
         private readonly HttpClient _client;
 
         public SystemImageUploader(
-            Uri backendUrl,
+            Uri backendUrl = null,
             HttpMessageHandler handler = null,
             ILogger<SystemImageUploader> logger = null)
         {
-            _backendUrl = backendUrl ?? throw new ArgumentNullException(nameof(backendUrl));
+            // TODO: get rid of test url
+            _backendUrl = backendUrl ?? new Uri("http://sentry.garcia.in/image");
+                          //?? throw new ArgumentNullException(nameof(backendUrl));
             _logger = logger ?? NullLogger<SystemImageUploader>.Instance;
             _client = new HttpClient(handler ?? new HttpClientHandler());
         }
@@ -40,41 +42,51 @@ namespace SystemInsta
 
             foreach (var file in files)
             {
-                _logger.LogInformation("File: {file}.", file);
-                if (!ELFReader.TryLoad(file, out var elf))
-                {
-                    _logger.LogWarning("Couldn't load': {file} with ELF reader.", file);
-                    continue;
-                }
-
-                var hasBuildId = elf.TryGetSection(".note.gnu.build-id", out var buildId);
-                if (!hasBuildId)
-                {
-                    _logger.LogWarning("No Debug Id in {file}", file);
-                    continue;
-                }
-
-                var hasUnwindingInfo = elf.TryGetSection(".eh_frame", out _);
-                var hasDwarfDebugInfo = elf.TryGetSection(".debug_frame", out _);
-
-                if (!hasUnwindingInfo && !hasDwarfDebugInfo)
-                {
-                    _logger.LogWarning("No unwind nor DWARF debug info in {file}", file);
-                    continue;
-                }
-
+                _logger.LogInformation("Processing file: {file}.", file);
+                IELF elf = null;
                 try
                 {
+                    if (!ELFReader.TryLoad(file, out elf))
+                    {
+                        _logger.LogWarning("Couldn't load': {file} with ELF reader.", file);
+                        continue;
+                    }
+
+                    var hasBuildId = elf.TryGetSection(".note.gnu.build-id", out var buildId);
+                    if (!hasBuildId)
+                    {
+                        _logger.LogWarning("No Debug Id in {file}", file);
+                        continue;
+                    }
+
+                    var hasUnwindingInfo = elf.TryGetSection(".eh_frame", out _);
+                    var hasDwarfDebugInfo = elf.TryGetSection(".debug_frame", out _);
+
+                    if (!hasUnwindingInfo && !hasDwarfDebugInfo)
+                    {
+                        _logger.LogWarning("No unwind nor DWARF debug info in {file}", file);
+                        continue;
+                    }
+
                     await ProcessFile(file, hasUnwindingInfo, hasDwarfDebugInfo, buildId, elf);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Failed sending file.");
+                    // You would expect TryLoad doesn't throw but that's not the case
+                    _logger.LogError(e, "Failed processing file {file}.", file);
+                }
+                finally
+                {
+                    elf?.Dispose();
                 }
             }
         }
 
-        private async Task ProcessFile(string file, bool hasUnwindingInfo, bool hasDwarfDebugInfo, ISection buildId,
+        private async Task ProcessFile(
+            string file,
+            bool hasUnwindingInfo,
+            bool hasDwarfDebugInfo,
+            ISection buildId,
             IELF elf)
         {
             _logger.LogInformation("Contains unwinding info: {hasUnwindingInfo}", hasUnwindingInfo);
@@ -143,12 +155,16 @@ namespace SystemInsta
                 _logger.LogInformation("Segment: {segment}.", segment);
             }
 
-            _logger.LogInformation("Endianess: {endianess}.", elf.Endianess);
+            _logger.LogInformation("Endianness: {Eedianness}.", elf.Endianess);
             _logger.LogInformation("Machine: {machine}.", elf.Machine);
             _logger.LogInformation("Type: {type}.", elf.Type);
 #endif
         }
 
-        public void Dispose() => _client?.Dispose();
+        public void Dispose()
+        {
+            _logger.LogInformation("Disposing client.");
+            _client?.Dispose();
+        }
     }
 }
