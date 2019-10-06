@@ -9,7 +9,7 @@ namespace SystemInsta.Tizen.Wearable
     {
         public App()
         {
-            Button button = new Button
+            var button = new Button
             {
                 Text = "Share you system images!",
             };
