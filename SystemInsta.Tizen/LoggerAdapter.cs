@@ -2,7 +2,7 @@
 using System;
 using TizenLogger = global::Tizen.Log;
 
-namespace SystemInsta.Tizen.Wearable
+namespace SystemInsta.Tizen
 {
     internal class LoggerAdapter<T> : ILogger<T>
     {

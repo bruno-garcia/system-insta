@@ -1,9 +1,8 @@
-﻿using Tizen.Wearable.CircularUI.Forms;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
-namespace SystemInsta.Tizen.Wearable
+namespace SystemInsta.Tizen.TV
 {
-    public class App : Application
+    internal class App : Application
     {
         public App()
         {
@@ -13,7 +12,7 @@ namespace SystemInsta.Tizen.Wearable
             };
             button.Clicked += TizenImageUploader.UploadSystemImages;
 
-            MainPage = new CirclePage
+            MainPage = new ContentPage
             {
                 Content = new StackLayout
                 {
