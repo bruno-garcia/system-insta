@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Logging;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace SystemInsta.Console
 {
-    public class LoggerAdapterr<T> : å<T>
+    public class LoggerAdapter<T> : ILogger<T>
     {
         public void Log<TState>(
             LogLevel logLevel,

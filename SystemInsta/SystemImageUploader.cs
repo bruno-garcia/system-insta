@@ -29,7 +29,7 @@ namespace SystemInsta
             _client = new HttpClient(handler ?? new HttpClientHandler());
         }
 
-        public async Task Run(string path)
+        public async Task Run(string path, bool searchSubDirectories)
         {
             if (!Directory.Exists(path))
             {
@@ -37,6 +37,19 @@ namespace SystemInsta
                 return;
             }
 
+            if (searchSubDirectories)
+            {
+                foreach (var directory in Directory.GetDirectories(path, "*", SearchOption.AllDirectories))
+                {
+                    await Collect(directory);
+                }
+            }
+
+            await Collect(path);
+        }
+
+        private async Task Collect(string path)
+        {
             var files = Directory.GetFiles(path);
             _logger.LogInformation("Path {path} has {length} files to process", path, files.Length);
 
@@ -127,7 +140,7 @@ namespace SystemInsta
 
                 if (!postResult.IsSuccessStatusCode)
                 {
-                    _logger.LogError("{postResult.StatusCode} for file {file}");
+                    _logger.LogError("{statusCode} for file {file}", postResult.StatusCode, file);
                     if (postResult.Headers.TryGetValues("X-Error-Code", out var code))
                     {
                         _logger.LogError("Code: {code}");

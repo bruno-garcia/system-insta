@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using static System.Console;
 
 namespace SystemInsta.Console
 {
@@ -6,29 +8,26 @@ namespace SystemInsta.Console
     {
         static async Task Main(string[] args)
         {
-            System.Console.WriteLine("Doing some work.");
-            await Task.Run(async () =>
+            WriteLine("Starting...");
+
+            var paths = new (string path, bool includeSubDirectories)[]
             {
-                var paths = new[] {"/sbin/"};
-                var uploader = new SystemImageUploader();
+                ("/lib/", true), ("/usr/lib/", true), ("/usr/local/lib", true)
+            };
 
-                foreach (var path in paths)
+            var logger = new LoggerAdapter<SystemImageUploader>();
+            using var uploader = new SystemImageUploader(logger: logger);
+            foreach (var (path, includeSubDirectories) in paths)
+            {
+                try
                 {
-                    try
-                    {
-                        await uploader.Run(path);
-                    }
-                    catch (System.Exception e)
-                    {
-                        System.Console.WriteLine($"Failed: {e}");
-                    }
+                    await uploader.Run(path, includeSubDirectories);
                 }
-            });
+                catch (Exception e)
+                {
+                    WriteLine($"Failed: {e}");
+                }
+            }
         }
-    }
-
-    class Logger : ILogger
-    {
-
     }
 }

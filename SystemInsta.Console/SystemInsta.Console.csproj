@@ -5,8 +5,9 @@
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
+        <RuntimeIdentifiers>osx-x64;linux-x64;linux-musl-x64;linux-arm</RuntimeIdentifiers>
         <PublishSingleFile>true</PublishSingleFile>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <ItemGroup>
