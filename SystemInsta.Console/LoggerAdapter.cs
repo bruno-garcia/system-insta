@@ -3,7 +3,7 @@ using System;
 
 namespace SystemInsta.Console
 {
-    public class LoggerAdapterr<T> : ILogger<T>
+    public class LoggerAdapterr<T> : å<T>
     {
         public void Log<TState>(
             LogLevel logLevel,
